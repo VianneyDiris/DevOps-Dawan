@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment                     # Ressource de type deploy
+metadata:
+  name: backend-deploy
+  labels:
+    app: backend
+spec:
+  replicas: 2                        # Ressource Replicaset
+  selector:
+    matchLabels:
+      app: backend
+  template:                          # Ressource POD 
+    metadata:
+      name: backend
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: bilbloke/backend:1.0

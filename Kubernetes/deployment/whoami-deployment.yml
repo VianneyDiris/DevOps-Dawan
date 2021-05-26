@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment                     # Ressource de type deploy
+metadata:
+  name: whoami-deploy
+  labels:
+    app: whoami
+spec:
+  replicas: 2                        # Ressource Replicaset
+  selector:
+    matchLabels:
+      app: whoami
+  template:                          # Ressource POD 
+    metadata:
+      name: whoami
+      labels:
+        app: whoami
+    spec:
+      containers:
+        - name: whoami
+          image: containous/whoami
