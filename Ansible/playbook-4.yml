@@ -1,0 +1,9 @@
+---
+- name : Quatrième playbook (Acte-I)
+  hosts: linux
+
+  tasks:
+  - name: Copie de index.html
+    template:
+      src: index.html.j2
+      dest: "{{ path_html_root }}/index.html"

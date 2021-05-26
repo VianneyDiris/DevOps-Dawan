@@ -1,0 +1,16 @@
+logins:
+  - name: curt
+    uid: 2000
+    home: /home/curt
+    shell: /bin/bash
+    groups:
+      - dba
+      - dev
+  - name: bob
+    uid: 2001
+    home: /home/bob
+    shell: /bin/bash
+    groups:
+      - sys
+      - info
+      - admin

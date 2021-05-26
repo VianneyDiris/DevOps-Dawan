@@ -1,0 +1,15 @@
+---
+- name: Premier playbook (Acte-I)
+  hosts: linux
+
+  tasks:
+  - name: Ping vers les machines cibles
+    ping:
+      data: Bien reçu !
+
+- name: Premier playbook (Acte-II)
+  hosts: debian
+
+  tasks:
+  - name: Whoami
+    shell: whoami

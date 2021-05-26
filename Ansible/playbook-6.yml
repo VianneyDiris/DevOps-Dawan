@@ -1,0 +1,23 @@
+---
+- name: Illustration de boucle
+  hosts: linux
+
+  tasks:
+  - name: inclusion de variables
+    include_vars:
+      file: mes_vars.yml
+  
+  - name: création des groupes
+    group:
+      name: "{{ item.1 }}"
+    loop: "{{ logins | subelements('groups') }}"
+
+  - name: création des utilisateurs
+    user:
+      name: "{{ item.name }}"
+      uid: "{{ item.uid }}"
+      shell: "{{ item.shell }}"
+      home: "{{ item.home }}"
+      password: "{{ item.name | password_hash('sha512','8kPG5zDmFVQ1ktur') }}"
+      groups: "{{ item.groups }}"
+    loop: "{{ logins }}"

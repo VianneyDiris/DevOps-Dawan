@@ -1,0 +1,2 @@
+apache_package_name: httpd
+path_port_conf : /etc/httpd/conf/httpd.conf

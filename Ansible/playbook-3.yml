@@ -1,0 +1,33 @@
+---
+- name : Troisième playbook (Acte-I)
+  hosts: linux
+
+  tasks:
+    - name: Installation du paquet apache2
+      package:
+        name: "{{ apache_package_name }}"
+        state: latest
+    
+    - name: Desactivation du service firewall (sur centos)
+      systemd:
+        name: firewalld
+        state: stopped
+        enabled: no
+      when: ansible_distribution|lower == 'centos'
+    
+    - name: Configuration du service
+      systemd:
+        name: "{{ apache_package_name }}"
+        state: started
+        enabled: yes
+    
+    - name: modifier le port d'écoute
+      lineinfile:
+        path: "{{ path_port_conf }}"
+        regex: ^Listen
+        line: Listen "{{ apache_port }}"
+      notify: reload_apache
+
+  handlers:
+  - name: importation des handlers
+    import_tasks: handler.yml

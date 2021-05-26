@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Site Web {{ inventory_hostname }}</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <h2>Accueil du site {{ inventory_hostname}}</h2>
+        <p>{% if ansible_distribution|lower in ('debian','ubuntu') %}
+    Distribution de type Debian
+    {% elif ansible_distribution|lower in ('centos','redhat') %}
+    Distribution de type Redhat
+    {% endif %}</p>
+    <p>
+    {% for item in ansible_interfaces %}
+        {%if item!='lo'%}
+            {{ item }}
+        {% endif %}
+    {% endfor %}
+    </p>
+    </body>
+</html>

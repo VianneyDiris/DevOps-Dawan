@@ -1,0 +1,25 @@
+---
+- name: Second playbook (Acte-I)
+  hosts: linux
+
+  tasks:
+  - name: Création du groupe commun
+    group:
+      name: commun
+  
+  - name: Création du répertoire commun avec les droits 3777
+    file:
+      group: commun
+      state: directory
+      path: /usr/local/commun
+      mode: '3777'
+  
+  - name: vérifier la présence de ce répertoire et de ses caractéristiques
+    shell:
+      cmd: ls -ld /usr/local/commun
+    changed_when : false
+    register: result
+  
+  - name: affichage de la variable
+    debug:
+      var: result.stdout

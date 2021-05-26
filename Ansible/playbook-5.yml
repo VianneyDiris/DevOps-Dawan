@@ -1,0 +1,44 @@
+---
+- name: Illustration de boucle
+  hosts: localhost
+  gather_facts: no
+
+  vars:
+    logins:
+      - name: curt
+        uid: 1000
+        groups:
+          - adm
+          - sys
+      - name: bob
+        uid: 2000
+        groups:
+          - dba
+          - dev
+      
+    users:
+      - bob
+      - curt
+      - loe
+    
+    groupes:
+      - adm
+      - dba
+      - sys
+  
+  tasks:
+    - name: loop
+      debug:
+        msg: "{{ item.name }}"
+      loop: "{{ logins }}"
+      tags: never
+    
+    - name: boucle imbriqué
+      debug:
+        msg: "{{ item.0 }} -> {{ item.1 }}"
+      loop: "{{ users | product(groupes) }}"
+    
+    - name: Sous-boucles
+      debug:
+        msg: "{{ item.0.name }} -> {{ item.1 }}"
+      loop: "{{ logins | subelements('groups') }}"
