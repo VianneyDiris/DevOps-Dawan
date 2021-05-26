@@ -1,0 +1,52 @@
+---
+- name: Acte I (Centos)
+  hosts: centos
+
+  tasks:
+  - name: Desactivation du service firewall (sur centos)
+    systemd:
+      name: firewalld
+      state: stopped
+      enabled: no
+    when: ansible_distribution|lower == 'centos'
+
+  - name: copie du dossier centos
+    copy:
+      src: ./centos
+      dest: /usr/local/
+      mode: "0777"
+  
+  - name: éxécution du script
+    shell: /usr/local/centos/exec-docker.sh
+    args:
+      chdir: /usr/local/centos/
+
+
+- name: Acte II (Debian)
+  hosts: debian
+
+  tasks:
+    - name: inclusion de variables
+      include_vars:
+        file: docker-1.yml
+
+    - name: copie du dossier debian
+      copy:
+        src: ./debian
+        dest: /usr/local/
+        mode: "0777"
+        
+    - name: template de index.php
+      template:
+        src: index.php.j2
+        dest: /usr/local/debian/html/index.php
+    
+    - name: template de nginx.conf
+      template:
+        src: nginx.conf.j2
+        dest: /usr/local/debian/conf/nginx.conf
+
+    - name: éxécution du script
+      shell: /usr/local/debian/exec-docker.sh
+      args:
+        chdir: /usr/local/debian/

@@ -1,0 +1,37 @@
+Vagrant.configure("2") do |config|
+
+    require 'yaml'
+    if File.file?('config.yaml')
+        conf = YAML.load_file('config.yaml')
+    else
+        raise "Configuration file 'config.yaml' does not exist"
+    end
+
+    conf['machines'].each do |vmname, ip, memory, cpus, box|
+        config.vm.define "#{vmname}" do |vm|
+            vm.vm.box = "#{box}"
+            vm.vm.hostname = "#{vmname}"
+            vm.vm.network "private_network", ip: "#{ip}"
+            vm.vm.provider "virtualbox" do |v|
+                v.memory = "#{memory}"
+                v.cpus = "#{cpus}"
+                v.name = "#{vmname}"
+            end
+            if vm.vm.hostname == 'Ansible'
+                vm.vm.provision :shell do |shell|
+                    shell.path = "install_ansible.sh"
+                end
+            else 
+                # require plugin https://github.com/leighmcculloch/vagrant-docker-compose
+                vm.vagrant.plugins = "vagrant-docker-compose"
+                # Install Docker
+                vm.vm.provision :docker
+
+                # Install Docker Compose
+                # First, install required plugin https://github.com/leighmcculloch/vagrant-docker-compose:
+                # vagrant plugin install vagrant-docker-compose
+                vm.vm.provision :docker_compose       
+            end
+        end
+    end 
+end

@@ -1,0 +1,13 @@
+---
+version: '2.4'
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    volumes: 
+    - "./script:/docker-entrypoint-initdb.d/"
+    - "./data:/var/lib/mysql"
+    environment: 
+      MYSQL_ROOT_PASSWORD: 'azerty'
+    ports:
+    - "3306:3306"

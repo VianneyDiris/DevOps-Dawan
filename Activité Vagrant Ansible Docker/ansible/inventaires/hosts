@@ -1,0 +1,9 @@
+[debian]
+docker-1 ansible_host=172.16.0.20
+
+[centos]
+docker-2 ansible_host=172.16.0.30 ansible_python_interpreter=/usr/bin/python3
+
+[linux:children]
+debian
+centos

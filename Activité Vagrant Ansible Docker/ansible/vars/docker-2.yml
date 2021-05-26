@@ -1,0 +1,3 @@
+paths:
+  - name: /usr/local/centos/script
+  - name: /usr/local/centos/data

@@ -1,0 +1,3 @@
+Pour le soucis de connexion ssh avec Ansible :
+modifier le fichier /etc/ssh/sshd_config et mettre PasswordAuthentication à yes
+faire ensuite un systemctl restart sshd
