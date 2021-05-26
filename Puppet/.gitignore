@@ -1,0 +1,4 @@
+.vagrant
+stdlib
+environment.conf
+hiera.yaml

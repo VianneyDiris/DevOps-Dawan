@@ -1,0 +1,6 @@
+<html>
+  <body style="color: black ">
+    <p> Page web Puppet </p>
+    <p> Version Linux : <%= $facts['os']['name'] %> </p>
+  </body>
+</html>
