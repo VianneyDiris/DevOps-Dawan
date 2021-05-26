@@ -1,0 +1,53 @@
+---
+
+version: "3"
+    
+services:
+    prometheus:
+        container_name: prometheus-vianney
+        image: "prom/prometheus"
+        ports:
+            - "34090:9090"
+        volumes:
+            - "./prometheus:/etc/prometheus"
+
+    prometheusbis:
+        image: "prom/prometheus"
+        command:
+            - '--config.file=/etc/prometheus/prometheus-bis.yml'
+        ports:
+            - "34095:9090"
+        volumes:
+            - "./prometheus:/etc/prometheus"
+    
+    alertmanager:
+        container_name: alertmanager-vianney
+        image: "prom/alertmanager"
+        ports:
+            - "34093:9093" 
+    
+    pushgateway:
+        container_name: pushgateway-vianney
+        image: "prom/pushgateway"
+        ports:
+            - "34091:9091" 
+    
+    node_exporter:
+        container_name: node_exporter-vianney
+        image: "prom/node-exporter"
+        ports:
+            - "34092:9100" 
+    
+    blackbox_exporter:
+        container_name: blackbox_exporter-vianney
+        image: "prom/blackbox-exporter"
+        ports:
+            - "34094:9115" 
+    
+    victoriametrics:
+        image: "victoriametrics/victoria-metrics"
+        volumes:
+            - "victoria_metrics_data:/victoria-metrics-data"
+    
+volumes:
+    victoria_metrics_data: {}
