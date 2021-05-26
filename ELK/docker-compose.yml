@@ -1,0 +1,38 @@
+---
+version: '3'
+services:
+    elasticsearch:
+        container_name: elasticsearch-vianney
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+        ports:
+            - 34000:9200
+        environment:
+            - discovery.type=single-node
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    
+    kibana:
+        container_name: kibana-vianney
+        image: docker.elastic.co/kibana/kibana:7.12.0
+        ports: 
+            - 34001:5601
+    
+    logstash:
+        container_name: logstash-vianney
+        image: docker.elastic.co/logstash/logstash:7.12.0
+        volumes:
+            - ubuntu_logs:/ubuntu_logs
+            - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+    
+    ubuntu:
+        container_name: ubuntu-vianney
+        image: ubuntu:latest
+        volumes:
+            - ubuntu_logs:/var/log
+            - ./ubuntu/script.sh:/script.sh:ro
+        command:
+            - "bash"
+            - "-C"
+            - "/script.sh"
+
+volumes:
+    ubuntu_logs: {}
